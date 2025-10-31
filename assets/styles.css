@@ -39,3 +39,4 @@ a.nav{display:inline-flex;align-items:center;gap:10px;background:var(--card);bor
 .bundle.active{background:var(--highlight)}
 .bundle h3{margin:0 0 8px;font-size:18px;color:var(--blue)}
 .bundle .note{background:var(--note);border-radius:8px;padding:6px 8px;margin-top:8px;font-style:italic}
+.bundle .filler{background:#fff;border:1px dashed var(--border);border-radius:8px;min-height:32px;padding:6px 8px;margin-top:8px}

@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Huldiging afstand – Bundels v2</title>
+  <title>Huldiging afstand – Bundels v4</title>
   <link rel="stylesheet" href="./assets/styles.css">
 </head>
-<body data-page-key="huldiging-afstand-bundles-v2">
+<body data-page-key="huldiging-afstand-bundles-v4">
   <header class="header">
     <div class="header-inner">
       <div class="brand"><span class="dot"></span> Huldiging afstand</div>
@@ -25,6 +25,31 @@
           <legend>Onderdeel</legend>
           <label for="onderdeel">Afstand + categorie (bijv. 1500m – Vrouwen)</label>
           <input id="onderdeel" data-key="onderdeel" type="text" placeholder="…">
+        </fieldset>
+
+        <fieldset>
+          <legend>Uitreikers</legend>
+          <div class="form-grid-2">
+            <div>
+              <label for="uitreiker-medailles-naam">Medailles – Naam</label>
+              <input id="uitreiker-medailles-naam" data-key="uitreiker_medailles_naam" type="text" placeholder="…">
+            </div>
+            <div>
+              <label for="uitreiker-medailles-functie">Medailles – Functie</label>
+              <input id="uitreiker-medailles-functie" data-key="uitreiker_medailles_functie" type="text" placeholder="…">
+            </div>
+            <div>
+              <label for="uitreiker-bloemen-naam">Bloemen – Naam</label>
+              <input id="uitreiker-bloemen-naam" data-key="uitreiker_bloemen_naam" type="text" placeholder="…">
+            </div>
+            <div>
+              <label for="uitreiker-bloemen-functie">Bloemen – Functie</label>
+              <input id="uitreiker-bloemen-functie" data-key="uitreiker_bloemen_functie" type="text" placeholder="…">
+            </div>
+          </div>
+          <div style="height:8px"></div>
+          <label for="uitreikers-extra"><strong>Extra bij uitreiken</strong> (optioneel)</label>
+          <input id="uitreikers-extra" data-key="uitreikers_extra" type="text" placeholder="bijv. Met dank aan de vrijwilligers van Thialf">
         </fieldset>
 
         <fieldset>
@@ -56,33 +81,11 @@
             <div><label for="derde-bijz">Bijzonderheden</label><input id="derde-bijz" data-key="derde_bijz" type="text" placeholder="…"></div>
           </div>
         </fieldset>
-
-        <fieldset>
-          <legend>Uitreikers</legend>
-          <div class="form-grid-2">
-            <div>
-              <label for="uitreiker-medailles-naam">Medailles – Naam</label>
-              <input id="uitreiker-medailles-naam" data-key="uitreiker_medailles_naam" type="text" placeholder="…">
-            </div>
-            <div>
-              <label for="uitreiker-medailles-functie">Medailles – Functie</label>
-              <input id="uitreiker-medailles-functie" data-key="uitreiker_medailles_functie" type="text" placeholder="…">
-            </div>
-            <div>
-              <label for="uitreiker-bloemen-naam">Bloemen – Naam</label>
-              <input id="uitreiker-bloemen-naam" data-key="uitreiker_bloemen_naam" type="text" placeholder="…">
-            </div>
-            <div>
-              <label for="uitreiker-bloemen-functie">Bloemen – Functie</label>
-              <input id="uitreiker-bloemen-functie" data-key="uitreiker_bloemen_functie" type="text" placeholder="…">
-            </div>
-          </div>
-        </fieldset>
       </form>
     </div>
 
     <div class="card">
-      <h1>Presentatietekst (bundels v2)</h1>
+      <h1>Presentatietekst (bundels v4)</h1>
       <div class="bundles"></div>
     </div>
   </div>

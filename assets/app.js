@@ -1,4 +1,3 @@
-
 (function(){
   const editBtn = document.querySelector('[data-action="edit"]');
   const saveBtn = document.querySelector('[data-action="save"]');
@@ -7,8 +6,8 @@
   const pageKey = document.body.dataset.pageKey || location.pathname;
   const inputs = Array.from(form ? form.querySelectorAll('input[data-key]') : []);
 
-  let isEditing = true;    // start in edit
-  let activeIdx = 0;       // which bundle is active
+  let isEditing = true;
+  let activeIdx = 0;
 
   function load(){
     const raw = localStorage.getItem('fields:'+pageKey);
@@ -53,6 +52,7 @@
         b.appendChild(n);
       }
       wrap.appendChild(b);
+      return b;
     }
 
     const onderdeel = d.onderdeel || '(onderdeel)';
@@ -69,10 +69,20 @@
 
     const uitM = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
     const uitB = [d.uitreiker_bloemen_naam, d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
-    bundle('UITREIKERS', [
+    const uitBundle = bundle('UITREIKERS', [
       `DE MEDAILLES WORDEN UITGEREIKT DOOR ${uitM || '(naam, functie)'}.`,
       `DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR ${uitB || '(naam, functie)'}.`
     ]);
+    const extra = d.uitreikers_extra || '';
+    const extraEl = document.createElement('div');
+    if(extra){
+      extraEl.className = 'note';
+      extraEl.textContent = extra;
+    }else{
+      extraEl.className = 'filler';
+      extraEl.innerHTML = '&nbsp;';
+    }
+    uitBundle.appendChild(extraEl);
 
     bundle('ZILVER', [
       `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd || '…'}.`,
@@ -98,8 +108,7 @@
       `EERSTE PLAATS: ${d.eerste_naam || '(naam)'} (NEDERLANDS KAMPIOEN)`
     ]);
 
-    // Re-apply highlight without scrolling while typing
-    setActive(activeIdx, {scroll: false});
+    setActive(activeIdx, {scroll:false});
   }
 
   function setEditing(on){
@@ -114,8 +123,7 @@
     localStorage.setItem('fields:'+pageKey, JSON.stringify(data()));
     render();
     setEditing(false);
-    // Only scroll once after saving to center the active bundle
-    setActive(activeIdx, {scroll: true});
+    setActive(activeIdx, {scroll:true});
     flash('Opgeslagen');
   }
 
@@ -137,30 +145,20 @@
     if(idx>=items.length) idx = items.length-1;
     activeIdx = idx;
     items.forEach((el,i)=> el.classList.toggle('active', i===activeIdx));
-    // Prevent movement while editing or when explicitly disabled
     if(scroll && !isEditing){
       items[activeIdx].scrollIntoView({behavior:'smooth', block:'center'});
     }
   }
 
   document.addEventListener('keydown', (e)=>{
-    if(e.key === 'ArrowDown'){
-      e.preventDefault();
-      setActive(activeIdx+1, {scroll: true}); // arrow navigation should scroll
-    } else if(e.key === 'ArrowUp'){
-      e.preventDefault();
-      setActive(activeIdx-1, {scroll: true});
-    }
+    if(e.key === 'ArrowDown'){ e.preventDefault(); setActive(activeIdx+1, {scroll:true}); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); setActive(activeIdx-1, {scroll:true}); }
   });
 
-  if(form){
-    // Re-render on input but do NOT scroll
-    form.addEventListener('input', render);
-  }
+  if(form){ form.addEventListener('input', render); }
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
   if(saveBtn) saveBtn.addEventListener('click', save);
 
-  // init
   setEditing(true);
   load();
   render();
