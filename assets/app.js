@@ -1,3 +1,4 @@
+
 (function(){
   const editBtn = document.querySelector('[data-action="edit"]');
   const saveBtn = document.querySelector('[data-action="save"]');
@@ -5,6 +6,9 @@
   const wrap = document.querySelector('.bundles');
   const pageKey = document.body.dataset.pageKey || location.pathname;
   const inputs = Array.from(form ? form.querySelectorAll('input[data-key]') : []);
+
+  let isEditing = true;    // start in edit
+  let activeIdx = 0;       // which bundle is active
 
   function load(){
     const raw = localStorage.getItem('fields:'+pageKey);
@@ -53,19 +57,16 @@
 
     const onderdeel = d.onderdeel || '(onderdeel)';
 
-    // 1) EERSTE BUNDEL: PRIJSUITREIKING ...
     bundle('PRIJSUITREIKING', [
       `PRIJSUITREIKING DAIKIN NK AFSTANDEN ${onderdeel}.`
     ]);
 
-    // 2) BRONS
     bundle('BRONS', [
       `DE BRONZEN MEDAILLE, MET EEN TIJD VAN ${d.derde_tijd || '…'}.`,
       `NAMENS ${d.derde_team || '(team)'}`,
       `${d.derde_naam || '(naam)'}`
     ], d.derde_bijz || '');
 
-    // 3) UITREIKERS
     const uitM = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
     const uitB = [d.uitreiker_bloemen_naam, d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
     bundle('UITREIKERS', [
@@ -73,14 +74,12 @@
       `DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR ${uitB || '(naam, functie)'}.`
     ]);
 
-    // 4) ZILVER
     bundle('ZILVER', [
       `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd || '…'}.`,
       `NAMENS ${d.tweede_team || '(team)'}`,
       `${d.tweede_naam || '(naam)'}`
     ], d.tweede_bijz || '');
 
-    // 5) GOUD
     bundle('GOUD', [
       `EN HET GOUD VOOR DE WINNAAR VAN DEZE ${onderdeel}.`,
       `MET EEN TIJD VAN ${d.eerste_tijd || '…'}.`,
@@ -88,12 +87,10 @@
       `${d.eerste_naam || '(naam)'}`
     ], d.eerste_bijz || '');
 
-    // 6) VOLKSLIED
     bundle('VOLKSLIED', [
       'THIALF, GAAT U STAAN EN GRAAG UW AANDACHT VOOR HET NATIONALE VOLKSLIED: HET WILHELMUS.'
     ]);
 
-    // 7) APPLAUS + PODIUM (SAMEN)
     bundle('APPLAUS & PODIUM', [
       `GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE ${onderdeel}.`,
       `DERDE PLAATS: ${d.derde_naam || '(naam)'}`,
@@ -101,22 +98,27 @@
       `EERSTE PLAATS: ${d.eerste_naam || '(naam)'} (NEDERLANDS KAMPIOEN)`
     ]);
 
-    setActive(activeIdx);
+    // Re-apply highlight without scrolling while typing
+    setActive(activeIdx, {scroll: false});
   }
 
-  // Edit/Save
   function setEditing(on){
+    isEditing = on;
     document.body.classList.toggle('locked', !on);
     inputs.forEach(inp => { inp.disabled = !on; });
     if(editBtn) editBtn.disabled = on;
     if(saveBtn) saveBtn.disabled = !on;
   }
+
   function save(){
     localStorage.setItem('fields:'+pageKey, JSON.stringify(data()));
     render();
     setEditing(false);
+    // Only scroll once after saving to center the active bundle
+    setActive(activeIdx, {scroll: true});
     flash('Opgeslagen');
   }
+
   function flash(msg){
     const n = document.createElement('div');
     n.textContent = msg;
@@ -128,23 +130,33 @@
     setTimeout(()=>{ n.remove(); }, 1400);
   }
 
-  // Arrow nav on bundles
-  let activeIdx = 0;
-  function setActive(idx){
+  function setActive(idx, {scroll=true} = {}){
     const items = Array.from(document.querySelectorAll('.bundle'));
     if(!items.length) return;
     if(idx<0) idx = 0;
     if(idx>=items.length) idx = items.length-1;
     activeIdx = idx;
     items.forEach((el,i)=> el.classList.toggle('active', i===activeIdx));
-    items[activeIdx].scrollIntoView({behavior:'smooth', block:'center'});
+    // Prevent movement while editing or when explicitly disabled
+    if(scroll && !isEditing){
+      items[activeIdx].scrollIntoView({behavior:'smooth', block:'center'});
+    }
   }
+
   document.addEventListener('keydown', (e)=>{
-    if(e.key === 'ArrowDown'){ e.preventDefault(); setActive(activeIdx+1); }
-    else if(e.key === 'ArrowUp'){ e.preventDefault(); setActive(activeIdx-1); }
+    if(e.key === 'ArrowDown'){
+      e.preventDefault();
+      setActive(activeIdx+1, {scroll: true}); // arrow navigation should scroll
+    } else if(e.key === 'ArrowUp'){
+      e.preventDefault();
+      setActive(activeIdx-1, {scroll: true});
+    }
   });
 
-  if(form){ form.addEventListener('input', render); }
+  if(form){
+    // Re-render on input but do NOT scroll
+    form.addEventListener('input', render);
+  }
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
   if(saveBtn) saveBtn.addEventListener('click', save);
 
@@ -152,5 +164,5 @@
   setEditing(true);
   load();
   render();
-  setActive(0);
+  setActive(0, {scroll:false});
 })();
