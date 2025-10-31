@@ -1,12 +1,13 @@
-# Huldiging Scripts – Referentievelden (Fixed)
+# Huldiging Scripts – Exacte Tekst + Pijltoetsen
 
-Bugfix: presentatietekst wordt nu direct bijgewerkt na **Opslaan** en tijdens typen.
+- **Exacte tekst** van pagina 2 (ongewijzigd) wordt weergegeven als losse regels.
+- Één **invulblok** bovenaan. Waarden worden **in de regels geinjecteerd** (alleen de stippellijnen/plaatsaanduidingen worden vervangen).
+- **Pijl omhoog / omlaag** navigeert regel-voor-reg el; de actieve regel wordt **geel** gemarkeerd.
+- **Bewerken** ontgrendelt de velden; **Opslaan** vergrendelt en bewaart lokaal (localStorage).
 
-## Pagina’s
-- Script stramien
-- Huldiging afstand (invulblok + presentatietekst)
-
-## Gebruik
-1. Klik **Bewerken**, vul velden in.
-2. **Opslaan** vergrendelt en schrijft naar localStorage.
-3. De definitieve tekst eronder verwijst naar alle ingevulde velden.
+## Bestanden
+- `index.html`
+- `script-stramien.html`
+- `huldiging-afstand.html`
+- `assets/styles.css`
+- `assets/app.js`

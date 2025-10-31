@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Huldiging afstand</title>
+  <title>Huldiging afstand – Exacte tekst</title>
   <link rel="stylesheet" href="./assets/styles.css">
 </head>
 <body data-page-key="huldiging-afstand">
@@ -11,7 +11,6 @@
     <div class="header-inner">
       <div class="brand"><span class="dot"></span> Huldiging afstand</div>
       <div class="toolbar">
-        <a class="nav" href="./index.html">Start</a>
         <button class="secondary" data-action="edit">Bewerken</button>
         <button data-action="save">Opslaan</button>
       </div>
@@ -21,7 +20,6 @@
   <div class="container">
     <div class="card">
       <h1>Invulblok</h1>
-      <p class="small">Vul eerst alles hieronder in. Na <em>Opslaan</em> worden de waardes in de definitieve tekst verwerkt en de velden vergrendeld.</p>
       <form data-form="invulblok">
         <fieldset>
           <legend>Onderdeel</legend>
@@ -60,19 +58,19 @@
           <legend>Uitreikers</legend>
           <div class="form-grid-2">
             <div>
-              <label for="uitreiker-medailles-naam">Uitreiker medailles – Naam</label>
+              <label for="uitreiker-medailles-naam">Medailles – Naam</label>
               <input id="uitreiker-medailles-naam" data-key="uitreiker_medailles_naam" type="text" placeholder="…">
             </div>
             <div>
-              <label for="uitreiker-medailles-functie">Uitreiker medailles – Functie</label>
+              <label for="uitreiker-medailles-functie">Medailles – Functie</label>
               <input id="uitreiker-medailles-functie" data-key="uitreiker_medailles_functie" type="text" placeholder="…">
             </div>
             <div>
-              <label for="uitreiker-bloemen-naam">Uitreiker bloemen – Naam</label>
+              <label for="uitreiker-bloemen-naam">Bloemen – Naam</label>
               <input id="uitreiker-bloemen-naam" data-key="uitreiker_bloemen_naam" type="text" placeholder="…">
             </div>
             <div>
-              <label for="uitreiker-bloemen-functie">Uitreiker bloemen – Functie</label>
+              <label for="uitreiker-bloemen-functie">Bloemen – Functie</label>
               <input id="uitreiker-bloemen-functie" data-key="uitreiker_bloemen_functie" type="text" placeholder="…">
             </div>
           </div>
@@ -81,34 +79,9 @@
     </div>
 
     <div class="card">
-      <h1>Definitieve presentatietekst</h1>
-      <blockquote>
-        PRIJSUITREIKING DAIKIN NK AFSTANDEN <strong><span data-ref="onderdeel" data-placeholder="… (AFSTAND – CATEGORIE)"></span></strong>.<br><br>
-
-        DE BRONZEN MEDAILLE, MET EEN TIJD VAN <strong><span data-ref="derde_tijd" data-placeholder="…"></span></strong>.<br>
-        NAMENS <strong><span data-ref="derde_team" data-placeholder="… (TEAMNAAM)"></span></strong><br>
-        <strong><span data-ref="derde_naam" data-placeholder="… (NAAM)"></span></strong><br><br>
-
-        DE MEDAILLES WORDEN UITGEREIKT DOOR <strong><span data-ref="uitreiker_medailles_naam" data-placeholder="…"></span>, <span data-ref="uitreiker_medailles_functie" data-placeholder="…"></span></strong>.<br>
-        DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR <strong><span data-ref="uitreiker_bloemen_naam" data-placeholder="…"></span>, <span data-ref="uitreiker_bloemen_functie" data-placeholder="…"></span></strong>.<br><br>
-
-        DE ZILVEREN MEDAILLE, MET EEN TIJD VAN <strong><span data-ref="tweede_tijd" data-placeholder="…"></span></strong>.<br>
-        NAMENS <strong><span data-ref="tweede_team" data-placeholder="… (TEAMNAAM)"></span></strong><br>
-        <strong><span data-ref="tweede_naam" data-placeholder="… (NAAM)"></span></strong><br><br>
-
-        EN HET GOUD VOOR DE WINNAAR VAN DEZE <strong><span data-ref="onderdeel" data-placeholder="… (AFSTAND – CATEGORIE)"></span></strong>,<br>
-        MET EEN TIJD VAN <strong><span data-ref="eerste_tijd" data-placeholder="…"></span></strong>.<br>
-        NAMENS <strong><span data-ref="eerste_team" data-placeholder="… (TEAMNAAM)"></span></strong><br>
-        <strong><span data-ref="eerste_naam" data-placeholder="… (NAAM)"></span></strong><br><br>
-
-        THIALF, GAAT U STAAN EN GRAAG UW AANDACHT VOOR HET NATIONALE VOLKSLIED: HET WILHELMUS.<br><br>
-
-        GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE <strong><span data-ref="onderdeel" data-placeholder="… (AFSTAND – CATEGORIE)"></span></strong>.<br><br>
-
-        DERDE PLAATS: <strong><span data-ref="derde_naam"></span></strong><br>
-        TWEEDE PLAATS: <strong><span data-ref="tweede_naam"></span></strong><br><br>
-        EN OP DE EERSTE PLAATS, (DE NIEUWE) NEDERLANDS KAMPIOEN: <strong><span data-ref="eerste_naam"></span></strong>
-      </blockquote>
+      <h1>Presentatietekst (exact)</h1>
+      <div class="lines"></div>
+      <script id="page2-lines-json" type="application/json">["PRIJSUITREIKING DAIKIN NK AFSTANDEN  ……………………….………………………(AFSTAND)    (VROUWEN / MANNEN)", "DE BRONZEN MEDAILLE, MET EEN TIJD VAN ……………………………………………….……………………………………………..", "NAMENS…………………………………………….……………………………………………..………………………..………. (TEAM...………………………………………………………………………………………………………………..………………………... (NAAM)", "DE MEDAILLES WORDEN UITGEREIKT DOOR \t\tHerman de Haan, directeur bestuurder KNSB", "DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR  ……………………………………………………………………..", "……………………………………………………………………………………………………………………………………………………………………", "DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ……………………………………………….……………………………………………..", "NAMENS…………………………………………….………………………………………………………………………………… (TEA...……………………………………………………………………………………………………………………………………………... (NAAM)", "EN HET GOUD VOOR DE WINNAAR VAN DEZE …………………………………….………………………………….. (AFSTAND),", "MET EEN TIJD VAN ……………………………………………….………………………………………………………………………………..…..", "NAMENS…………………………………………….………………………………………………………………………………… (TEA...……………………………………………………………………………………………………………………………………………... (NAAM)", "THIALF IN DIEN MOGELIJK, GAAT U STAAN EN GRAAG UW AANDACHT VOOR HET NATIONALE VOLKSLIED HET WILHELMUS", "GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE …………………………………(AFSTAND)   (VROUWEN / MANNEN)", "DERDE PLAATS: \t\t..…………………………………………………………………………………………………………...WEEDE PLAATS: \t\t………………………………………………………………………………………………………………………", "EN OP DE EERSTE PLAATS, (DE NIEUWE) NEDERLANDS KAMPIOEN: …………….……………………………………………"]</script>
     </div>
   </div>
 

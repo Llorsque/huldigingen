@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;600;700&display=swap');
 :root{
   --blue:#212945; --light:#52E8E8; --bg:#f7f9fc; --ink:#0f1222;
-  --muted:#6b7280; --card:#ffffff; --border:#e5e7eb;
+  --muted:#6b7280; --card:#ffffff; --border:#e5e7eb; --highlight:#fff59d;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:'Archivo',system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
@@ -17,9 +17,8 @@ button:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(33,41,69,.25)}
 button:disabled{opacity:.5;cursor:not-allowed}
 .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(17,24,39,.06);margin:18px 0}
 h1,h2,h3{color:var(--blue);margin:0 0 12px}
-h1{font-size:28px} h2{font-size:22px;margin-top:18px} h3{font-size:18px;margin-top:14px}
+h1{font-size:28px} h2{font-size:22px;margin-top:18px}
 .meta{color:var(--muted);font-size:13px}
-.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
 label{font-weight:600;color:var(--blue);display:block;margin-bottom:6px}
 input[type="text"]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;outline:none}
 input[type="text"]:focus{border-color:#99f6e4;box-shadow:0 0 0 2px rgba(82,232,232,.25)}
@@ -33,3 +32,9 @@ blockquote{margin:0;padding:14px 16px;border-left:4px solid var(--light);backgro
 footer{color:var(--muted);font-size:12px;padding:30px 0;text-align:center}
 a.nav{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);padding:14px 16px;border-radius:14px;text-decoration:none;color:var(--blue);font-weight:600;box-shadow:0 6px 20px rgba(17,24,39,.06)}
 .locked input{pointer-events:none;opacity:.8;background:#f9fafb}
+
+/* Lines for reading */
+.lines{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.line{padding:8px 10px;border-radius:8px;line-height:1.5;white-space:pre-wrap}
+.line.active{background:var(--highlight)}
+.line:focus{outline:none}
