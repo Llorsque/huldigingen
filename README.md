@@ -1,14 +1,24 @@
-# Huldiging Scripts
+# Huldiging Scripts – Referentievelden
 
-Een eenvoudige, statische site met twee pagina’s:
-- **Script stramien** (losse weergave van pagina 1 van het document)
-- **Huldiging afstand** (pagina 2 met invulvelden)
+Deze versie werkt met één invulblok en een definitieve tekst die automatisch alle waarden invult.
 
-## Gebruik
-1. Open `index.html` lokaal of via GitHub Pages.
-2. Klik op **Bewerken** om velden te ontgrendelen.
-3. Vul de velden in. Klik **Opslaan** om de velden te vergrendelen.
-4. Gegevens worden lokaal opgeslagen in de browser (localStorage).
+## Pagina’s
+- **Script stramien** – losse weergave van pagina 1
+- **Huldiging afstand** – invulblok + definitieve presentatietekst
+
+## Velden
+- Onderdeel
+- 1e plaats: naam, tijd, team
+- 2e plaats: naam, tijd, team
+- 3e plaats: naam, tijd, team
+- Uitreiker medailles: naam, functie
+- Uitreiker bloemen: naam, functie
+
+## Werking
+1. Klik **Bewerken** om de invulvelden te ontgrendelen.
+2. Vul alle velden in (bovenste kaart).
+3. Klik **Opslaan** om te vergrendelen. De definitieve tekst eronder wordt automatisch bijgewerkt.
+4. De data wordt lokaal bewaard (localStorage).
 
 ## Structuur
 ```
@@ -21,6 +31,3 @@ Een eenvoudige, statische site met twee pagina’s:
 │   └── app.js
 └── README.md
 ```
-
-## Tip
-Wil je beginnen met een set standaardwaarden? Bewerk, vul in en **Opslaan**. Daarna blijven ze bewaard op hetzelfde apparaat en in dezelfde browser.

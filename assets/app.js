@@ -1,47 +1,50 @@
-/**
- * Simple field locker with localStorage persistence.
- * All editable fields have class 'editable' and a unique data-key.
- */
 (function(){
   const editBtn = document.querySelector('[data-action="edit"]');
   const saveBtn = document.querySelector('[data-action="save"]');
-  const fields = Array.from(document.querySelectorAll('.editable'));
+  const form = document.querySelector('form[data-form="invulblok"]');
+  const refs = Array.from(document.querySelectorAll('[data-ref]'));
   const pageKey = document.body.dataset.pageKey || location.pathname;
+  const inputs = Array.from(form ? form.querySelectorAll('input[data-key]') : []);
 
   function load(){
     const raw = localStorage.getItem('fields:'+pageKey);
     if(!raw) return;
     try{
       const data = JSON.parse(raw);
-      fields.forEach(el => {
-        const key = el.dataset.key;
-        if(key && data[key] != null){
-          el.textContent = data[key];
-          el.classList.remove('placeholder');
-        }
+      inputs.forEach(inp => {
+        const key = inp.dataset.key;
+        if(data[key] != null){ inp.value = data[key]; }
       });
+      render();
     }catch(e){ console.warn('load failed', e); }
   }
 
-  function setEditing(on){
-    fields.forEach(el => {
-      el.setAttribute('contenteditable', on ? 'true' : 'false');
+  function currentData(){
+    const d = {};
+    inputs.forEach(inp => d[inp.dataset.key] = inp.value.trim());
+    return d;
+  }
+
+  function render(){
+    const d = currentData();
+    refs.forEach(el => {
+      const key = el.dataset.ref;
+      const val = d[key] || el.dataset.placeholder || '…';
+      el.textContent = val;
     });
-    document.body.dataset.editing = on ? '1' : '0';
+  }
+
+  function setEditing(on){
+    document.body.classList.toggle('locked', !on);
+    inputs.forEach(inp => { inp.disabled = !on; });
     if(editBtn) editBtn.disabled = on;
     if(saveBtn) saveBtn.disabled = !on;
   }
 
   function save(){
-    const data = {};
-    fields.forEach(el => {
-      const key = el.dataset.key;
-      if(!key) return;
-      const val = (el.textContent || '').trim();
-      data[key] = val;
-      if(val) el.classList.remove('placeholder'); else el.classList.add('placeholder');
-    });
+    const data = currentData();
     localStorage.setItem('fields:'+pageKey, JSON.stringify(data));
+    render();
     setEditing(false);
     flash('Opgeslagen');
   }
@@ -57,10 +60,14 @@
     setTimeout(()=>{ n.remove(); }, 1400);
   }
 
+  if(form){
+    form.addEventListener('input', render);
+  }
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
-  if(saveBtn) saveBtn.addEventListener('click', save);
+  if(saveBtn) saveBtn.addEventListener('click', save));
 
-  // Disable editing by default
+  // init
   setEditing(false);
   load();
+  render();
 })();
