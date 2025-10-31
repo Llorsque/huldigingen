@@ -1,13 +1,13 @@
-# Huldiging Scripts – Exacte Tekst + Pijltoetsen
+# Huldiging Scripts – Bundels (zonder stippellijntjes)
 
-- **Exacte tekst** van pagina 2 (ongewijzigd) wordt weergegeven als losse regels.
-- Één **invulblok** bovenaan. Waarden worden **in de regels geinjecteerd** (alleen de stippellijnen/plaatsaanduidingen worden vervangen).
-- **Pijl omhoog / omlaag** navigeert regel-voor-reg el; de actieve regel wordt **geel** gemarkeerd.
-- **Bewerken** ontgrendelt de velden; **Opslaan** vergrendelt en bewaart lokaal (localStorage).
+- Tekst in **logische bundels**: Brons, Uitreikers, Zilver, Goud, Volkslied, Applaus, Podium.
+- **Stippellijntjes verwijderd**; nette zinnen met jouw ingevulde waarden.
+- **Bijzonderheden** per podiumplek als aparte noot.
+- **Pijltoetsen** (↑/↓) navigeren per bundel; actieve bundel geel.
+- **Bewerken/Opslaan**, data in localStorage.
 
 ## Bestanden
 - `index.html`
-- `script-stramien.html`
 - `huldiging-afstand.html`
 - `assets/styles.css`
 - `assets/app.js`

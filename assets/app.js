@@ -2,11 +2,9 @@
   const editBtn = document.querySelector('[data-action="edit"]');
   const saveBtn = document.querySelector('[data-action="save"]');
   const form = document.querySelector('form[data-form="invulblok"]');
-  const linesWrap = document.querySelector('.lines');
+  const wrap = document.querySelector('.bundles');
   const pageKey = document.body.dataset.pageKey || location.pathname;
   const inputs = Array.from(form ? form.querySelectorAll('input[data-key]') : []);
-
-  const rawLines = JSON.parse(document.getElementById('page2-lines-json').textContent);
 
   function load(){
     const raw = localStorage.getItem('fields:'+pageKey);
@@ -20,113 +18,95 @@
     }catch(e){ console.warn('load failed', e); }
   }
 
-  function currentData(){
+  function data(){
     const d = {};
     inputs.forEach(inp => d[inp.dataset.key] = inp.value.trim());
     return d;
   }
 
-  function injectIntoExactLines(d){
-    // Work on a copy; keep exact characters except replacing the intended placeholders
-    return rawLines.map((ln, idx) => {
-      let out = ln;
-
-      // Onderdeel -> replace occurrences of (AFSTAND) (VROUWEN / MANNEN) or just (AFSTAND)
-      if(d.onderdeel){
-        out = out.replace(/\(AFSTAND\)\s+\(VROUWEN\s*\/\s*MANNEN\)/g, '('+d.onderdeel+')');
-        out = out.replace(/\(AFSTAND\)/g, '('+d.onderdeel+')');
-      }
-
-      // Times: replace long ellipsis after "TIJD VAN "
-      if(idx===1 && d.derde_tijd){ // bronze time line index 1
-        out = out.replace(/…+/, d.derde_tijd);
-      }
-      if(idx===6 && d.tweede_tijd){ // silver time
-        out = out.replace(/…+/, d.tweede_tijd);
-      }
-      if(idx===9 && d.eerste_tijd){ // gold time
-        out = out.replace(/…+/, d.eerste_tijd);
-      }
-
-      // Team + Naam: replace (TEAM...) and (NAAM) occurrences on respective lines
-      if(idx===2){ // bronze team+name
-        if(d.derde_team){ out = out.replace(/\(TEA[^)]*\)/g, '('+d.derde_team+')'); out = out.replace(/\(TEAM[^)]*\)/g, '('+d.derde_team+')'); }
-        if(d.derde_naam){ out = out.replace(/\(NAAM\)/g, '('+d.derde_naam+')'); }
-      }
-      if(idx===7){ // silver team+name
-        if(d.tweede_team){ out = out.replace(/\(TEA[^)]*\)/g, '('+d.tweede_team+')'); out = out.replace(/\(TEAM[^)]*\)/g, '('+d.tweede_team+')'); }
-        if(d.tweede_naam){ out = out.replace(/\(NAAM\)/g, '('+d.tweede_naam+')'); }
-      }
-      if(idx===10){ // gold team+name
-        if(d.eerste_team){ out = out.replace(/\(TEA[^)]*\)/g, '('+d.eerste_team+')'); out = out.replace(/\(TEAM[^)]*\)/g, '('+d.eerste_team+')'); }
-        if(d.eerste_naam){ out = out.replace(/\(NAAM\)/g, '('+d.eerste_naam+')'); }
-      }
-
-      // Medailles uitreiker (line 3): replace everything after "DOOR" with " naam, functie"
-      if(idx===3 && (d.uitreiker_medailles_naam || d.uitreiker_medailles_functie)){
-        const who = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
-        if(who){ out = out.replace(/(DOOR)(.*)$/,'$1  '+who); }
-      }
-      // Bloemen uitreiker (line 4 and line 5 of page block)
-      if(idx===4 && (d.uitreiker_bloemen_naam || d.uitreiker_bloemen_functie)){
-        const who = [d.uitreiker_bloemen_naam, d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
-        if(who){ out = out.replace(/(DOOR)(.*)$/,'$1  '+who); }
-      }
-      if(idx===5 && (d.uitreiker_bloemen_naam || d.uitreiker_bloemen_functie)){
-        // Replace pure ellipsis line with nothing or keep as is – we'll keep as is so the exact layout remains.
-      }
-
-      // Line 13: "DERDE PLAATS:  ..…… TWEEDE PLAATS:  ……"
-      if(idx===13){
-        if(d.derde_naam){
-          out = out.replace(/(DERDE PLAATS:\s*)([.\u2026]+[^T]*)/,'$1'+d.derde_naam+'   ');
-        }
-        if(d.tweede_naam){
-          out = out.replace(/(TWEEDE PLAATS:\s*)(.*)$/,'$1'+d.tweede_naam);
-        }
-      }
-
-      // Line 14: kampioen naam
-      if(idx===14 && d.eerste_naam){
-        out = out.replace(/…+/, d.eerste_naam);
-      }
-
-      return out;
-    });
+  function addP(el, txt){
+    const p = document.createElement('p');
+    p.style.margin = '0 0 6px';
+    p.textContent = txt;
+    el.appendChild(p);
   }
 
   function render(){
-    const d = currentData();
-    const lines = injectIntoExactLines(d);
-    linesWrap.innerHTML = '';
-    lines.forEach((txt, i) => {
-      const div = document.createElement('div');
-      div.className = 'line';
-      div.tabIndex = 0;
-      div.dataset.idx = i;
-      div.textContent = txt;
-      linesWrap.appendChild(div);
-    });
-    // Keep first active if none
-    setActiveLine(activeIdx);
+    const d = data();
+    wrap.innerHTML = '';
+
+    function bundle(title, linesArr, note=''){
+      const b = document.createElement('div');
+      b.className = 'bundle';
+      const h = document.createElement('h3');
+      h.textContent = title;
+      b.appendChild(h);
+      linesArr.forEach(t => addP(b, t));
+      if(note){
+        const n = document.createElement('div');
+        n.className = 'note';
+        n.textContent = note;
+        b.appendChild(n);
+      }
+      wrap.appendChild(b);
+    }
+
+    const onderdeel = d.onderdeel || '(onderdeel)';
+    bundle('BRONS', [
+      `DE BRONZEN MEDAILLE, MET EEN TIJD VAN ${d.derde_tijd or '…'}.`,
+      `NAMENS ${d.derde_team or '(team)'}`,
+      `${d.derde_naam or '(naam)'}`
+    ], d.derde_bijz || '');
+
+    const uitM = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
+    const uitB = [d.uitreiker_bloemen_naam, d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
+    bundle('UITREIKERS', [
+      `DE MEDAILLES WORDEN UITGEREIKT DOOR ${uitM || '(naam, functie)'}.`,
+      `DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR ${uitB || '(naam, functie)'}.`
+    ]);
+
+    bundle('ZILVER', [
+      `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd or '…'}.`,
+      `NAMENS ${d.tweede_team or '(team)'}`,
+      `${d.tweede_naam or '(naam)'}`
+    ], d.tweede_bijz || '');
+
+    bundle('GOUD', [
+      `EN HET GOUD VOOR DE WINNAAR VAN DEZE ${onderdeel}.`,
+      `MET EEN TIJD VAN ${d.eerste_tijd or '…'}.`,
+      `NAMENS ${d.eerste_team or '(team)'}`,
+      `${d.eerste_naam or '(naam)'}`
+    ], d.eerste_bijz || '');
+
+    bundle('VOLKSLIED', [
+      'THIALF, GAAT U STAAN EN GRAAG UW AANDACHT VOOR HET NATIONALE VOLKSLIED: HET WILHELMUS.'
+    ]);
+
+    bundle('APPLAUS', [
+      `GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE ${onderdeel}.`
+    ]);
+
+    bundle('PODIUM', [
+      `DERDE PLAATS: ${d.derde_naam || '(naam)'}`,
+      `TWEEDE PLAATS: ${d.tweede_naam || '(naam)'}`,
+      `EERSTE PLAATS: ${d.eerste_naam || '(naam)'} (NEDERLANDS KAMPIOEN)`
+    ]);
+
+    setActive(activeIdx);
   }
 
-  // Editing on/off
   function setEditing(on){
     document.body.classList.toggle('locked', !on);
     inputs.forEach(inp => { inp.disabled = !on; });
     if(editBtn) editBtn.disabled = on;
     if(saveBtn) saveBtn.disabled = !on;
   }
-
   function save(){
-    const data = currentData();
-    localStorage.setItem('fields:'+pageKey, JSON.stringify(data));
+    localStorage.setItem('fields:'+pageKey, JSON.stringify(data()));
     render();
     setEditing(false);
     flash('Opgeslagen');
   }
-
   function flash(msg){
     const n = document.createElement('div');
     n.textContent = msg;
@@ -138,39 +118,28 @@
     setTimeout(()=>{ n.remove(); }, 1400);
   }
 
-  // Arrow key navigation
+  // Arrow nav on bundles
   let activeIdx = 0;
-  function setActiveLine(idx){
-    const children = Array.from(linesWrap.children);
-    if(children.length===0) return;
+  function setActive(idx){
+    const items = Array.from(document.querySelectorAll('.bundle'));
+    if(!items.length) return;
     if(idx<0) idx = 0;
-    if(idx>=children.length) idx = children.length-1;
+    if(idx>=items.length) idx = items.length-1;
     activeIdx = idx;
-    children.forEach((el,i)=>{
-      el.classList.toggle('active', i===activeIdx);
-    });
-    children[activeIdx].scrollIntoView({behavior:'smooth', block:'center'});
+    items.forEach((el,i)=> el.classList.toggle('active', i===activeIdx));
+    items[activeIdx].scrollIntoView({behavior:'smooth', block:'center'});
   }
-
   document.addEventListener('keydown', (e)=>{
-    if(e.key === 'ArrowDown'){
-      e.preventDefault();
-      setActiveLine(activeIdx+1);
-    } else if(e.key === 'ArrowUp'){
-      e.preventDefault();
-      setActiveLine(activeIdx-1);
-    }
+    if(e.key === 'ArrowDown'){ e.preventDefault(); setActive(activeIdx+1); }
+    else if(e.key === 'ArrowUp'){ e.preventDefault(); setActive(activeIdx-1); }
   });
 
-  if(form){
-    form.addEventListener('input', render);
-  }
+  if(form){ form.addEventListener('input', render); }
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
   if(saveBtn) saveBtn.addEventListener('click', save);
 
-  // init
-  setEditing(true); // start in edit so je kunt gelijk invullen
+  setEditing(true);
   load();
   render();
-  setActiveLine(0);
+  setActive(0);
 })();
