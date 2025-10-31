@@ -1,8 +1,10 @@
-# Huldiging Scripts – Bundels (Fixed)
-Bugfix: presentatietekst rendert correct (JS `||` fallback i.p.v. `or`).
+# Huldiging Scripts – Bundels v2
+- **Nieuw:** Eerste blokje "PRIJSUITREIKING DAIKIN NK AFSTANDEN (onderdeel)".
+- **Nieuw:** "APPLAUS" en "PODIUM" zijn samengevoegd tot **één** blok.
+- Pijltoetsen (↑/↓), bijzonderheden per podiumplek, bewerken/opslaan met localStorage.
 
-- Bundels: Brons, Uitreikers, Zilver, Goud, Volkslied, Applaus, Podium.
-- Stippellijntjes verwijderd; nette zinnen met ingevulde waarden.
-- Bijzonderheden per podiumplek als noot.
-- Pijltoetsen ↑/↓ per bundel.
-- Bewerk/Opslaan met localStorage.
+Bestanden:
+- `index.html`
+- `huldiging-afstand.html`
+- `assets/styles.css`
+- `assets/app.js`

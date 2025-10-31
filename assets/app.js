@@ -52,12 +52,20 @@
     }
 
     const onderdeel = d.onderdeel || '(onderdeel)';
+
+    // 1) EERSTE BUNDEL: PRIJSUITREIKING ...
+    bundle('PRIJSUITREIKING', [
+      `PRIJSUITREIKING DAIKIN NK AFSTANDEN ${onderdeel}.`
+    ]);
+
+    // 2) BRONS
     bundle('BRONS', [
       `DE BRONZEN MEDAILLE, MET EEN TIJD VAN ${d.derde_tijd || '…'}.`,
       `NAMENS ${d.derde_team || '(team)'}`,
       `${d.derde_naam || '(naam)'}`
     ], d.derde_bijz || '');
 
+    // 3) UITREIKERS
     const uitM = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
     const uitB = [d.uitreiker_bloemen_naam, d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
     bundle('UITREIKERS', [
@@ -65,12 +73,14 @@
       `DE BLOEMEN EN CADEAUTJES WORDEN UITGEREIKT DOOR ${uitB || '(naam, functie)'}.`
     ]);
 
+    // 4) ZILVER
     bundle('ZILVER', [
       `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd || '…'}.`,
       `NAMENS ${d.tweede_team || '(team)'}`,
       `${d.tweede_naam || '(naam)'}`
     ], d.tweede_bijz || '');
 
+    // 5) GOUD
     bundle('GOUD', [
       `EN HET GOUD VOOR DE WINNAAR VAN DEZE ${onderdeel}.`,
       `MET EEN TIJD VAN ${d.eerste_tijd || '…'}.`,
@@ -78,15 +88,14 @@
       `${d.eerste_naam || '(naam)'}`
     ], d.eerste_bijz || '');
 
+    // 6) VOLKSLIED
     bundle('VOLKSLIED', [
       'THIALF, GAAT U STAAN EN GRAAG UW AANDACHT VOOR HET NATIONALE VOLKSLIED: HET WILHELMUS.'
     ]);
 
-    bundle('APPLAUS', [
-      `GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE ${onderdeel}.`
-    ]);
-
-    bundle('PODIUM', [
+    // 7) APPLAUS + PODIUM (SAMEN)
+    bundle('APPLAUS & PODIUM', [
+      `GEEF ZE NOG EEN GROOT APPLAUS, HET PODIUM VAN DEZE ${onderdeel}.`,
       `DERDE PLAATS: ${d.derde_naam || '(naam)'}`,
       `TWEEDE PLAATS: ${d.tweede_naam || '(naam)'}`,
       `EERSTE PLAATS: ${d.eerste_naam || '(naam)'} (NEDERLANDS KAMPIOEN)`
@@ -95,6 +104,7 @@
     setActive(activeIdx);
   }
 
+  // Edit/Save
   function setEditing(on){
     document.body.classList.toggle('locked', !on);
     inputs.forEach(inp => { inp.disabled = !on; });
@@ -138,6 +148,7 @@
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
   if(saveBtn) saveBtn.addEventListener('click', save);
 
+  // init
   setEditing(true);
   load();
   render();
