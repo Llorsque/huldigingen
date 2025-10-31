@@ -53,9 +53,9 @@
 
     const onderdeel = d.onderdeel || '(onderdeel)';
     bundle('BRONS', [
-      `DE BRONZEN MEDAILLE, MET EEN TIJD VAN ${d.derde_tijd or '…'}.`,
-      `NAMENS ${d.derde_team or '(team)'}`,
-      `${d.derde_naam or '(naam)'}`
+      `DE BRONZEN MEDAILLE, MET EEN TIJD VAN ${d.derde_tijd || '…'}.`,
+      `NAMENS ${d.derde_team || '(team)'}`,
+      `${d.derde_naam || '(naam)'}`
     ], d.derde_bijz || '');
 
     const uitM = [d.uitreiker_medailles_naam, d.uitreiker_medailles_functie].filter(Boolean).join(', ');
@@ -66,16 +66,16 @@
     ]);
 
     bundle('ZILVER', [
-      `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd or '…'}.`,
-      `NAMENS ${d.tweede_team or '(team)'}`,
-      `${d.tweede_naam or '(naam)'}`
+      `DE ZILVEREN MEDAILLE, MET EEN TIJD VAN ${d.tweede_tijd || '…'}.`,
+      `NAMENS ${d.tweede_team || '(team)'}`,
+      `${d.tweede_naam || '(naam)'}`
     ], d.tweede_bijz || '');
 
     bundle('GOUD', [
       `EN HET GOUD VOOR DE WINNAAR VAN DEZE ${onderdeel}.`,
-      `MET EEN TIJD VAN ${d.eerste_tijd or '…'}.`,
-      `NAMENS ${d.eerste_team or '(team)'}`,
-      `${d.eerste_naam or '(naam)'}`
+      `MET EEN TIJD VAN ${d.eerste_tijd || '…'}.`,
+      `NAMENS ${d.eerste_team || '(team)'}`,
+      `${d.eerste_naam || '(naam)'}`
     ], d.eerste_bijz || '');
 
     bundle('VOLKSLIED', [
