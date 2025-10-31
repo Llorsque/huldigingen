@@ -15,7 +15,6 @@
         const key = inp.dataset.key;
         if(data[key] != null){ inp.value = data[key]; }
       });
-      render();
     }catch(e){ console.warn('load failed', e); }
   }
 
@@ -64,7 +63,7 @@
     form.addEventListener('input', render);
   }
   if(editBtn) editBtn.addEventListener('click', ()=> setEditing(true));
-  if(saveBtn) saveBtn.addEventListener('click', save));
+  if(saveBtn) saveBtn.addEventListener('click', save);
 
   // init
   setEditing(false);
