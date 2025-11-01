@@ -35,3 +35,10 @@ a.nav{display:inline-flex;align-items:center;gap:10px;background:var(--card);bor
 .table th,.table td{text-align:center}
 .table th:first-child,.table td:first-child{text-align:right;width:60px;color:var(--muted)}
 .table th:nth-child(2),.table td:nth-child(2){text-align:left}
+
+/* v8: per-onderdeel rows: 1. Naam, Tijd, Team */
+.row-onderdeel{display:grid;grid-template-columns:60px 1.2fr 0.8fr 1fr;gap:10px;align-items:center;
+  background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0}
+.row-onderdeel .rank{text-align:right;color:var(--muted);font-weight:700}
+.row-onderdeel .naam{font-weight:700}
+.row-onderdeel .tijd{font-variant-numeric:tabular-nums}

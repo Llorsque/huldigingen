@@ -13,10 +13,20 @@
 const onderdelen=ScriptUtils.allOnderdeelKeys(); const perOnd=document.getElementById('per-onderdeel'); const perTeam=document.getElementById('per-team');
 function card(title,html){const c=document.createElement('div'); c.className='card'; c.innerHTML='<h2>'+title+'</h2>'+html; return c;}
 // Top 3 per onderdeel
-onderdelen.forEach(o=>{const d=ScriptUtils.readData(o); const html=`
-  <div class="row"><strong>1.</strong><div>${d.eerste_naam||''}</div><div>${d.eerste_tijd||''}</div><div>${d.eerste_team||''}</div></div>
-  <div class="row"><strong>2.</strong><div>${d.tweede_naam||''}</div><div>${d.tweede_tijd||''}</div><div>${d.tweede_team||''}</div></div>
-  <div class="row"><strong>3.</strong><div>${d.derde_naam||''}</div><div>${d.derde_tijd||''}</div><div>${d.derde_team||''}</div></div>`; perOnd.appendChild(card(o,html));});
+onderdelen.forEach(o=>{
+  const d=ScriptUtils.readData(o);
+  const wrap=document.createElement('div');
+  const h2=document.createElement('h2'); h2.textContent=o; wrap.appendChild(h2);
+  function row(rank, naam, tijd, team){
+    const r=document.createElement('div'); r.className='row-onderdeel';
+    r.innerHTML = `<div class="rank">${rank}.</div><div class="naam">${naam||''}</div><div class="tijd">${tijd||''}</div><div class="team">${team||''}</div>`;
+    return r;
+  }
+  wrap.appendChild(row(1, d.eerste_naam, d.eerste_tijd, d.eerste_team));
+  wrap.appendChild(row(2, d.tweede_naam, d.tweede_tijd, d.tweede_team));
+  wrap.appendChild(row(3, d.derde_naam, d.derde_tijd, d.derde_team));
+  perOnd.appendChild(wrap);
+});
 // Medailles per team
 const tally={}; onderdelen.forEach(o=>{const d=ScriptUtils.readData(o);
   if(d.eerste_team){tally[d.eerste_team]=(tally[d.eerste_team]||{goud:0,zilver:0,brons:0}); tally[d.eerste_team].goud++;}
