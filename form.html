@@ -56,36 +56,14 @@ function addPhtml(el,html){const p=document.createElement('p'); p.style.margin='
 function render(){const d=cur(); wrap.innerHTML=''; const T=ScriptUtils.getBundleTexts();
   function bundle(t,arr,note=''){const b=document.createElement('div'); b.className='bundle'; const h=document.createElement('h3'); h.textContent=t; b.appendChild(h); arr.forEach(t=>addPhtml(b,t)); if(note){const n=document.createElement('div'); n.className='note'; n.textContent=note; b.appendChild(n);} wrap.appendChild(b); return b;}
   bundle('PRIJSUITREIKING',[ScriptUtils.formatRich(T.prijsuitreiking,{onderdeel})]);
-  // allow bold in inputs by wrapping with formatRich
-  bundle('BRONS',[
-    ScriptUtils.formatRich(T.brons_1,{tijd:d.derde_tijd}),
-    ScriptUtils.formatRich(T.brons_2,{team:d.derde_team}),
-    ScriptUtils.formatRich(T.brons_3,{naam:d.derde_naam})
-  ], d.derde_bijz||'');
+  bundle('BRONS',[ScriptUtils.formatRich(T.brons_1,{tijd:d.derde_tijd}),ScriptUtils.formatRich(T.brons_2,{team:d.derde_team}),ScriptUtils.formatRich(T.brons_3,{naam:d.derde_naam})], d.derde_bijz||'');
   const uitM=[d.uitreiker_medailles_naam,d.uitreiker_medailles_functie].filter(Boolean).join(', '); const uitB=[d.uitreiker_bloemen_naam,d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
-  const bu=bundle('UITREIKERS',[
-    ScriptUtils.formatRich(T.uit_medailles,{naam_functie:uitM||'(naam, functie)'}),
-    ScriptUtils.formatRich(T.uit_bloemen,{naam_functie:uitB||'(naam, functie)'})
-  ]);
+  const bu=bundle('UITREIKERS',[ScriptUtils.formatRich(T.uit_medailles,{naam_functie:uitM||'(naam, functie)'}),ScriptUtils.formatRich(T.uit_bloemen,{naam_functie:uitB||'(naam, functie)'})]);
   const extra=d.uitreikers_extra||''; const extraEl=document.createElement('div'); if(extra){extraEl.className='note'; extraEl.textContent=extra;} else {extraEl.className='filler'; extraEl.innerHTML='&nbsp;';} bu.appendChild(extraEl);
-  bundle('ZILVER',[
-    ScriptUtils.formatRich(T.zilver_1,{tijd:d.tweede_tijd}),
-    ScriptUtils.formatRich(T.zilver_2,{team:d.tweede_team}),
-    ScriptUtils.formatRich(T.zilver_3,{naam:d.tweede_naam})
-  ], d.tweede_bijz||'');
-  bundle('GOUD',[
-    ScriptUtils.formatRich(T.goud_1,{onderdeel}),
-    ScriptUtils.formatRich(T.goud_2,{tijd:d.eerste_tijd}),
-    ScriptUtils.formatRich(T.goud_3,{team:d.eerste_team}),
-    ScriptUtils.formatRich(T.goud_4,{naam:d.eerste_naam})
-  ], d.eerste_bijz||'');
+  bundle('ZILVER',[ScriptUtils.formatRich(T.zilver_1,{tijd:d.tweede_tijd}),ScriptUtils.formatRich(T.zilver_2,{team:d.tweede_team}),ScriptUtils.formatRich(T.zilver_3,{naam:d.tweede_naam})], d.tweede_bijz||'');
+  bundle('GOUD',[ScriptUtils.formatRich(T.goud_1,{onderdeel}),ScriptUtils.formatRich(T.goud_2,{tijd:d.eerste_tijd}),ScriptUtils.formatRich(T.goud_3,{team:d.eerste_team}),ScriptUtils.formatRich(T.goud_4,{naam:d.eerste_naam})], d.eerste_bijz||'');
   bundle('VOLKSLIED',[T.volkslied]);
-  bundle('APPLAUS & PODIUM',[
-    ScriptUtils.formatRich(T.applaus,{onderdeel}),
-    ScriptUtils.formatRich(T.podium_3,{naam:d.derde_naam}),
-    ScriptUtils.formatRich(T.podium_2,{naam:d.tweede_naam}),
-    ScriptUtils.formatRich(T.podium_1,{naam:d.eerste_naam})
-  ]);
+  bundle('APPLAUS & PODIUM',[ScriptUtils.formatRich(T.applaus,{onderdeel}),ScriptUtils.formatRich(T.podium_3,{naam:d.derde_naam}),ScriptUtils.formatRich(T.podium_2,{naam:d.tweede_naam}),ScriptUtils.formatRich(T.podium_1,{naam:d.eerste_naam})]);
   setActive(activeIdx,{scroll:false});
 }
 function setActive(i,{scroll=true}={}){const items=[...document.querySelectorAll('.bundle')]; if(!items.length)return; if(i<0)i=0; if(i>=items.length)i=items.length-1; activeIdx=i; items.forEach((el,idx)=>el.classList.toggle('active',idx===activeIdx)); if(scroll&&!isEditing){items[activeIdx].scrollIntoView({behavior:'smooth',block:'center'});}}

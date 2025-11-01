@@ -26,13 +26,7 @@ window.ScriptUtils=(function(){
   function setBundleTexts(obj){ localStorage.setItem('bundle_texts', JSON.stringify(obj||{})); }
   function format(tpl,map){ return tpl.replace(/{{\s*([\w_]+)\s*}}/g,(_,k)=>(map[k]??'')); }
   function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
-  function formatRich(tpl,map){
-    const plain=format(tpl,map||{});
-    let html=escapeHtml(plain);
-    html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-    html=html.replace(/__(.+?)__/g,'<strong>$1</strong>');
-    return html;
-  }
+  function formatRich(tpl,map){ const plain=format(tpl,map||{}); let html=escapeHtml(plain); html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>'); html=html.replace(/__(.+?)__/g,'<strong>$1</strong>'); return html; }
   function keyFor(onderdeel){ return 'fields:'+onderdeel; }
   function readData(onderdeel){ try{ return JSON.parse(localStorage.getItem(keyFor(onderdeel))||'{}'); }catch(e){ return {}; } }
   function writeData(onderdeel,data){ localStorage.setItem(keyFor(onderdeel), JSON.stringify(data||{})); }
