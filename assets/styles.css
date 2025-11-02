@@ -13,8 +13,8 @@ select{background:#fff;color:var(--blue)} button.secondary{background:#fff;color
 .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(17,24,39,.06);margin:18px 0}
 h1,h2,h3{color:var(--blue);margin:0 0 12px} h1{font-size:28px} h2{font-size:22px;margin-top:18px}
 label{font-weight:600;color:var(--blue);display:block;margin-bottom:6px}
-input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;outline:none}
-input[type=text]:focus{border-color:#99f6e4;box-shadow:0 0 0 2px rgba(82,232,232,.25)}
+input[type=text], input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;outline:none}
+input[type=text]:focus, input[type=number]:focus{border-color:#99f6e4;box-shadow:0 0 0 2px rgba(82,232,232,.25)}
 fieldset{border:1px solid var(--border);border-radius:14px;padding:16px;margin:12px 0;background:#fff}
 legend{padding:0 8px;color:var(--blue);font-weight:700}
 .form-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px}
@@ -35,7 +35,9 @@ a.nav{display:inline-flex;align-items:center;gap:10px;background:var(--card);bor
 .table th,.table td{text-align:center}
 .table th:first-child,.table td:first-child{text-align:right;width:60px;color:var(--muted)}
 .table th:nth-child(2),.table td:nth-child(2){text-align:left}
-.row-onderdeel{display:grid;grid-template-columns:60px 1.2fr 0.8fr 1fr;gap:10px;align-items:center;background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0}
+/* Per-onderdeel rows: 1. Naam | Tijd | Team */
+.row-onderdeel{display:grid;grid-template-columns:60px 1.2fr 0.8fr 1fr;gap:10px;align-items:center;
+  background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0}
 .row-onderdeel .rank{text-align:right;color:var(--muted);font-weight:700}
 .row-onderdeel .naam{font-weight:700}
 .row-onderdeel .tijd{font-variant-numeric:tabular-nums}
