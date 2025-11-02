@@ -52,18 +52,21 @@ inputs.find(i=>i.dataset.key==='onderdeel').value=onderdeel;
 function cur(){const d={}; inputs.forEach(i=>d[i.dataset.key]=i.value.trim()); return d;}
 function load(){const d=ScriptUtils.readData(onderdeel); inputs.forEach(i=>{ if(d[i.dataset.key]!=null){ i.value=d[i.dataset.key]; } });}
 function saveStore(){ScriptUtils.writeData(onderdeel,cur());}
+function escapeHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function addPhtml(el,html){const p=document.createElement('p'); p.style.margin='0 0 6px'; p.innerHTML=html; el.appendChild(p);}
-function render(){const d=cur(); wrap.innerHTML=''; const T=ScriptUtils.getBundleTexts();
+function fmt(tpl,map){const plain=tpl.replace(/{{\s*([\w_]+)\s*}}/g,(_,k)=>(map[k]??'')); let html=escapeHtml(plain); html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/__(.+?)__/g,'<strong>$1</strong>'); return html;}
+function render(){const d=cur(); wrap.innerHTML='';
   function bundle(t,arr,note=''){const b=document.createElement('div'); b.className='bundle'; const h=document.createElement('h3'); h.textContent=t; b.appendChild(h); arr.forEach(t=>addPhtml(b,t)); if(note){const n=document.createElement('div'); n.className='note'; n.textContent=note; b.appendChild(n);} wrap.appendChild(b); return b;}
-  bundle('PRIJSUITREIKING',[ScriptUtils.formatRich(T.prijsuitreiking,{onderdeel})]);
-  bundle('BRONS',[ScriptUtils.formatRich(T.brons_1,{tijd:d.derde_tijd}),ScriptUtils.formatRich(T.brons_2,{team:d.derde_team}),ScriptUtils.formatRich(T.brons_3,{naam:d.derde_naam})], d.derde_bijz||'');
+  const T=ScriptUtils.getBundleTexts();
+  bundle('PRIJSUITREIKING',[fmt(T.prijsuitreiking,{onderdeel})]);
+  bundle('BRONS',[fmt(T.brons_1,{tijd:d.derde_tijd}),fmt(T.brons_2,{team:d.derde_team}),fmt(T.brons_3,{naam:d.derde_naam})], d.derde_bijz||'');
   const uitM=[d.uitreiker_medailles_naam,d.uitreiker_medailles_functie].filter(Boolean).join(', '); const uitB=[d.uitreiker_bloemen_naam,d.uitreiker_bloemen_functie].filter(Boolean).join(', ');
-  const bu=bundle('UITREIKERS',[ScriptUtils.formatRich(T.uit_medailles,{naam_functie:uitM||'(naam, functie)'}),ScriptUtils.formatRich(T.uit_bloemen,{naam_functie:uitB||'(naam, functie)'})]);
+  const bu=bundle('UITREIKERS',[fmt(T.uit_medailles,{naam_functie:uitM||'(naam, functie)'}),fmt(T.uit_bloemen,{naam_functie:uitB||'(naam, functie)'})]);
   const extra=d.uitreikers_extra||''; const extraEl=document.createElement('div'); if(extra){extraEl.className='note'; extraEl.textContent=extra;} else {extraEl.className='filler'; extraEl.innerHTML='&nbsp;';} bu.appendChild(extraEl);
-  bundle('ZILVER',[ScriptUtils.formatRich(T.zilver_1,{tijd:d.tweede_tijd}),ScriptUtils.formatRich(T.zilver_2,{team:d.tweede_team}),ScriptUtils.formatRich(T.zilver_3,{naam:d.tweede_naam})], d.tweede_bijz||'');
-  bundle('GOUD',[ScriptUtils.formatRich(T.goud_1,{onderdeel}),ScriptUtils.formatRich(T.goud_2,{tijd:d.eerste_tijd}),ScriptUtils.formatRich(T.goud_3,{team:d.eerste_team}),ScriptUtils.formatRich(T.goud_4,{naam:d.eerste_naam})], d.eerste_bijz||'');
+  bundle('ZILVER',[fmt(T.zilver_1,{tijd:d.tweede_tijd}),fmt(T.zilver_2,{team:d.tweede_team}),fmt(T.zilver_3,{naam:d.tweede_naam})], d.tweede_bijz||'');
+  bundle('GOUD',[fmt(T.goud_1,{onderdeel}),fmt(T.goud_2,{tijd:d.eerste_tijd}),fmt(T.goud_3,{team:d.eerste_team}),fmt(T.goud_4,{naam:d.eerste_naam})], d.eerste_bijz||'');
   bundle('VOLKSLIED',[T.volkslied]);
-  bundle('APPLAUS & PODIUM',[ScriptUtils.formatRich(T.applaus,{onderdeel}),ScriptUtils.formatRich(T.podium_3,{naam:d.derde_naam}),ScriptUtils.formatRich(T.podium_2,{naam:d.tweede_naam}),ScriptUtils.formatRich(T.podium_1,{naam:d.eerste_naam})]);
+  bundle('APPLAUS & PODIUM',[fmt(T.applaus,{onderdeel}),fmt(T.podium_3,{naam:d.derde_naam}),fmt(T.podium_2,{naam:d.tweede_naam}),fmt(T.podium_1,{naam:d.eerste_naam})]);
   setActive(activeIdx,{scroll:false});
 }
 function setActive(i,{scroll=true}={}){const items=[...document.querySelectorAll('.bundle')]; if(!items.length)return; if(i<0)i=0; if(i>=items.length)i=items.length-1; activeIdx=i; items.forEach((el,idx)=>el.classList.toggle('active',idx===activeIdx)); if(scroll&&!isEditing){items[activeIdx].scrollIntoView({behavior:'smooth',block:'center'});}}
